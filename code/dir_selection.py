@@ -61,5 +61,8 @@ class TargetDirSelection(tk.Frame):
 
 	def select_directory(self):
 		directory = filedialog.askdirectory(initialdir="/", title="Select Target Directory")
-		self.logger.info(f"Selected target directory: `{directory}`")
-		self.master.select_target_dir(directory)
+		if directory != "":
+			self.logger.info(f"Selected target directory: `{directory}`")
+			self.master.select_target_dir(directory)
+		else:
+			self.logger.debug("No directory selected.")
