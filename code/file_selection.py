@@ -68,7 +68,7 @@ class TargetFileSelection(tk.Frame):
 			return []
 		else:
 			list_of_files_in_directory = [
-				item for item in os.listdir(target_directory) if os.path.isfile(target_directory+"/"+item)
+				item for item in os.listdir(target_directory) if os.path.isfile(os.path.join(target_directory, item))
 			]
 			self.logger.debug(f"Loaded a list of files: {list_of_files_in_directory}")
 			return list_of_files_in_directory
@@ -78,8 +78,11 @@ class TargetFileSelection(tk.Frame):
 		Saves the currently selected files in `self.file_listbox` to the Mainframe's variable `selected_files`.
 		"""
 		selected_files = self._get_selected_items()
-		self.logger.info(f"Target Files have been selected: {selected_files}.")
-		self.master.selected_files.set(selected_files)
+		if len(selected_files) > 0:
+			self.logger.info(f"Target Files have been selected: {selected_files}.")
+			self.master.selected_files.set(selected_files)
+		else:
+			self.logger.info("No files have been selected.")
 
 	def _get_selected_items(self) -> list[str]:
 		"""

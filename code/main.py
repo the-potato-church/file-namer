@@ -65,7 +65,8 @@ class MainFrame(tk.Frame):
 		self.dir_select_frame = TargetDirSelection(master=self)
 		self.dir_select_frame.grid(column=0, row=0)
 
-		# Creating File Selection Frame; shown when target directory is selected (see `self.toggle_directory_set`)
+		# Creating File Selection Frame; shown when target directory is selected
+		# (see `self.after_target_directory_select`)
 		self.file_select_frame = TargetFileSelection(master=self)
 
 	def after_target_directory_select(self, selected_dir: str) -> None:
@@ -90,9 +91,8 @@ class MainFrame(tk.Frame):
 			when_not_selected()
 
 	def after_target_file_select(self, selected_files: list[str]):
-		if len(selected_files) != 0:
-			self.dir_select_frame.grid_remove()
-			self.file_select_frame.grid_remove()
+		self.dir_select_frame.grid_remove()
+		self.file_select_frame.grid_remove()
 
 
 if __name__ == "__main__":
