@@ -54,7 +54,7 @@ class MainFrame(tk.Frame):
 
 		self.selected_directory = StringVarWithHook(
 			hook=self.after_target_directory_select,
-			value="none"
+			value="none",
 		)
 		self.selected_files = VarWithHook(
 			hook=self.after_target_file_select,
@@ -90,7 +90,7 @@ class MainFrame(tk.Frame):
 			when_not_selected()
 
 	def after_target_file_select(self, selected_files: list[str]):
-		self.logger.debug(f"Target Files have been selected: {selected_files}.")
+		pass
 
 
 if __name__ == "__main__":

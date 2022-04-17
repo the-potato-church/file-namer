@@ -46,7 +46,7 @@ class TargetFileSelection(tk.Frame):
 		self.confirm_file_selection.pack(side="left", padx="0.2cm", pady="0.2cm")
 
 	def load_files_in_directory(self) -> None:
-		self.logger.debug("Loading files in directory into `self.files_in_directory`")
+		self.logger.debug("Loading files in directory into `self.files_in_directory`.")
 		self.files_in_directory.set(self._get_files_in_directory())
 
 	def _get_files_in_directory(self) -> list[str]:
@@ -73,7 +73,9 @@ class TargetFileSelection(tk.Frame):
 		"""
 		Saves the currently selected files in `self.file_listbox` to the Mainframe's variable `selected_files`.
 		"""
-		self.master.selected_files.set(self._get_selected_items())
+		selected_files = self._get_selected_items()
+		self.logger.info(f"Target Files have been selected: {selected_files}.")
+		self.master.selected_files.set(selected_files)
 
 	def _get_selected_items(self) -> list[str]:
 		"""
