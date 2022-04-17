@@ -46,6 +46,10 @@ class TargetFileSelection(tk.Frame):
 		self.confirm_file_selection.pack(side="left", padx="0.2cm", pady="0.2cm")
 
 	def load_files_in_directory(self) -> None:
+		"""
+		Loads the list of files in the selected Target directory. As a result, the TargetFileSelection.file_listbox
+		will update and show this list of files.
+		"""
 		self.logger.debug("Loading files in directory into `self.files_in_directory`.")
 		self.files_in_directory.set(self._get_files_in_directory())
 
