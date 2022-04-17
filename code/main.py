@@ -2,11 +2,33 @@ import logging.config
 import tkinter as tk
 
 from dir_selection import TargetDirSelection
+from file_selection import TargetFileSelection
 from logging_module import logging_config
 from version import get_version
 
 logging.config.dictConfig(logging_config)
 main_logger = logging.getLogger("MainLogger")
+
+
+class SelectedDirectory(tk.StringVar):
+	"""
+	Extension of `tk.StringVar` which is able to call `toggle_directory_set` hook from master on `set`.
+
+	Calls `self.master.toggle_directory_set(True)` when set value is not "none" in which case calls
+	`self.master.toggle_directory_set(False)`.
+	"""
+	def __init__(self, master, enable_hook: bool = True, *args, **kwargs):
+		super().__init__(master, *args, **kwargs)
+		self.master = master
+		self._enable_hook = enable_hook
+
+	def set(self, value: str, *args, **kwargs) -> None:
+		super().set(value=value, *args, **kwargs)
+		if self._enable_hook:
+			if value == "none":
+				self.master.toggle_directory_set(False)
+			else:
+				self.master.toggle_directory_set(True)
 
 
 class MainFrame(tk.Frame):
@@ -18,8 +40,7 @@ class MainFrame(tk.Frame):
 		self.master = master
 		self.logger: logging.Logger = logger
 
-		self.selected_directory = tk.StringVar(value="none")
-		self._target_dir_selected = False
+		self.selected_directory = SelectedDirectory(master=self, value="none")
 
 		# Creating Directory Selection Frame
 		self.dir_select_frame = TargetDirSelection(master=self)
@@ -27,13 +48,22 @@ class MainFrame(tk.Frame):
 
 	def select_target_dir(self, target_var: str) -> None:
 		"""
-		Method setting the target directory. When a directory is selected, this method also updates the
-		`self._target_dir_selected` to True - enables dynamically showing frames only when target directory is selected.
+		Update handler called when target directory has been selected.
 
-		:param target_var: selected target directory
+		:param dir_selected: has a valid directory been selected or is "none"
 		"""
-		self._target_dir_selected = True
-		self.selected_directory.set(target_var)
+		def when_selected():
+			self.file_select_frame.grid(column=0, row=1, pady="0.5cm")
+
+		def when_not_selected():
+			self.file_select_frame.grid_remove()
+
+		if dir_selected:
+			self.logger.debug("Directory has been selected - showing relevant Frames.")
+			when_selected()
+		else:
+			self.logger.debug("Directory has not been selected - hiding relevant Frames.")
+			when_not_selected()
 
 
 if __name__ == "__main__":
