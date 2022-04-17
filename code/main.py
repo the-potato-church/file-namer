@@ -90,7 +90,9 @@ class MainFrame(tk.Frame):
 			when_not_selected()
 
 	def after_target_file_select(self, selected_files: list[str]):
-		pass
+		if len(selected_files) != 0:
+			self.dir_select_frame.grid_remove()
+			self.file_select_frame.grid_remove()
 
 
 if __name__ == "__main__":
