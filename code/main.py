@@ -41,8 +41,10 @@ if __name__ == "__main__":
 
 	# Initialise a window
 	window = tk.Tk()
+
 	# Set window size
 	window.geometry("600x500")
+	window.resizable(height=False, width=False)
 
 	# Set the window title and icon
 	window.title("File Namer")
