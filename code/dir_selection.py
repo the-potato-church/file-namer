@@ -29,14 +29,14 @@ class TargetDirSelection(tk.Frame):
 			text="Select target directory",
 			command=self.select_directory,
 		)
-		self.select_button.pack(side="left")
+		self.select_button.grid(column=0, row=0)
 
 		self.selected_directory = self.master.selected_directory
 		self.selected_directory_label = self.SelectedDirectoryLabel(
 			master=self,
 			padx="3mm",
 		)
-		self.selected_directory_label.pack(side="left")
+		self.selected_directory_label.grid(column=1, row=0)
 
 	class SelectedDirectoryLabel(tk.Frame):
 		def __init__(self, master, logger=None, *args, **kwargs):
@@ -51,13 +51,13 @@ class TargetDirSelection(tk.Frame):
 				master=self,
 				text="Selected target directory:",
 			)
-			self.selected_directory_label_prefix.pack(side="left")
+			self.selected_directory_label_prefix.grid(column=0, row=0)
 
 			self.selected_directory_label = tk.Label(
 				master=self,
 				textvariable=self.master.selected_directory,
 			)
-			self.selected_directory_label.pack(side="left")
+			self.selected_directory_label.grid(column=1, row=0)
 
 	def select_directory(self):
 		directory = filedialog.askdirectory(initialdir="/", title="Select Target Directory")
