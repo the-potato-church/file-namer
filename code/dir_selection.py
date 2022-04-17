@@ -39,6 +39,9 @@ class TargetDirSelection(tk.Frame):
 		self.selected_directory_label.grid(column=1, row=0)
 
 	class SelectedDirectoryLabel(tk.Frame):
+		"""
+		Shows the currently selected target directory.
+		"""
 		def __init__(self, master, logger=None, *args, **kwargs):
 			super().__init__(master, *args, **kwargs)
 			self.master = master
