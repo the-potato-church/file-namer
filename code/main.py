@@ -90,7 +90,28 @@ class MainFrame(tk.Frame):
 			self.logger.debug("Directory has not been selected - hiding relevant Frames.")
 			when_not_selected()
 
-	def after_target_file_select(self, selected_files: list[str]):
+	def _check_if_target_files_same_length(self, selected_files: list[str]) -> None:
+		"""
+		A simple check to verify that all target files are the same length.
+
+		At present, the File Namer works with indeces and this will break if not all items have the same number
+		of characters (and also the general name pattern - i.e. the key parts of the name
+		need to be at the same positions).
+
+		This function is to be deprecated when this stops being the case. todo: deprecate when ready
+		"""
+		first_length = len(selected_files[0])
+		are_all_lengths_same = [len(file) == first_length for file in selected_files]
+
+		self.logger.debug(f"Checking target file name lengths: `{are_all_lengths_same}`.")
+		if not all(are_all_lengths_same):
+			self.logger.warning("Be careful! I am dumb for now and I can handle "
+			                    "only files with the same length and general pattern.")
+
+	def after_target_file_select(self, selected_files: list[str]) -> None:
+		self.logger.debug("Target files have been selected - proceeding to name pattern selection.")
+		self._check_if_target_files_same_length(selected_files)
+
 		self.dir_select_frame.grid_remove()
 		self.file_select_frame.grid_remove()
 
@@ -113,5 +134,5 @@ if __name__ == "__main__":
 	main_frame = MainFrame(window)
 	main_frame.pack(padx="1cm", pady="0.5cm")
 
-	main_logger.info(f"Version: `{get_version(main_logger)}`")
+	main_logger.info(f"Version: `{get_version(main_logger)}`.")
 	window.mainloop()
