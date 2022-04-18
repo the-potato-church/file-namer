@@ -229,6 +229,7 @@ class NamePatternSelection(tk.Frame):
 
 		# Disabling `self.name_pattern_text`
 		self.name_pattern_text["state"] = "disabled"
+		self.pattern_confirm_button["state"] = "disabled"
 		self.edit_pattern_button.pack(side="left", padx="0.2cm")
 
 		self.logger.info(f"File naming pattern has been created. Modifications: `{modifications}`.")
@@ -236,6 +237,7 @@ class NamePatternSelection(tk.Frame):
 
 	def _return_to_pattern_edit(self):
 		self.name_pattern_text["state"] = "normal"
+		self.pattern_confirm_button["state"] = "normal"
 		self.edit_pattern_button.pack_forget()
 
 	def grid(self, *args, **kwargs) -> None:
