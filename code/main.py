@@ -4,6 +4,7 @@ import tkinter as tk
 from dir_selection import TargetDirSelection
 from file_selection import TargetFileSelection
 from logging_module import logging_config
+from name_pattern_selection import NamePatternSelection
 from version import get_version
 
 logging.config.dictConfig(logging_config)
@@ -60,6 +61,10 @@ class MainFrame(tk.Frame):
 			hook=self.after_target_file_select,
 			value=[],
 		)
+		self.name_pattern_modifications = VarWithHook(
+			hook=self.after_name_pattern_selected,
+			value=[]
+		)
 
 		# Creating Directory Selection Frame
 		self.dir_select_frame = TargetDirSelection(master=self)
@@ -68,6 +73,19 @@ class MainFrame(tk.Frame):
 		# Creating File Selection Frame; shown when target directory is selected
 		# (see `self.after_target_directory_select`)
 		self.file_select_frame = TargetFileSelection(master=self)
+
+		# Creating Name Pattern Selection Frame; shown when target files are selected
+		# (see `self.after_target_file_select`)
+		self.name_pattern_select_frame = self._create_new_NamePatternSelection()
+
+	def _create_new_NamePatternSelection(self):
+		"""
+		An instance of `NamePatternSelection` is called in more than one place.
+		This function standardises the instance creation parameters.
+
+		:return: new instance of `NamePatternSelection`
+		"""
+		return NamePatternSelection(master=self)
 
 	def after_target_directory_select(self, selected_dir: str) -> None:
 		"""
@@ -114,6 +132,22 @@ class MainFrame(tk.Frame):
 
 		self.dir_select_frame.grid_remove()
 		self.file_select_frame.grid_remove()
+
+		self.name_pattern_select_frame.grid(column=0, row=0, padx="1cm", pady="0.5cm")
+
+	def return_to_file_select(self):
+		self.logger.debug("Returning from Name Pattern Creation to Target File Selection.")
+
+		# Create a new instance of `NamePatternSelection`
+		self.name_pattern_select_frame.destroy()
+		self.name_pattern_select_frame = self._create_new_NamePatternSelection()
+
+		# Return to the previous view
+		self.dir_select_frame.grid(column=0, row=0)
+		self.file_select_frame.grid(column=0, row=1, pady="0.5cm")
+
+	def after_name_pattern_selected(self, name_modifications: list[dict]) -> None:
+		self.logger.debug("Name pattern modifications have been selected.")
 
 
 if __name__ == "__main__":
