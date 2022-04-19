@@ -35,6 +35,7 @@ class TargetFileSelection(tk.Frame):
 			width=70,
 			listvariable=self.files_in_directory,
 			selectmode="extended",
+			background="#D7E1EA",
 		)
 		self.file_listbox.pack()
 

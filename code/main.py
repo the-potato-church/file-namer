@@ -66,7 +66,7 @@ class MainFrame(tk.Frame):
 			value=[]
 		)
 
-		# Creating Directory Selection Frame
+		# Creating Directory Selection Frame; initial frame - visible on startup
 		self.dir_select_frame = TargetDirSelection(master=self)
 		self.dir_select_frame.grid(column=0, row=0)
 

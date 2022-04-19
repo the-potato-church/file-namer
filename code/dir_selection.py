@@ -58,6 +58,7 @@ class TargetDirSelection(tk.Frame):
 			self.selected_directory_label = tk.Label(
 				master=self,
 				textvariable=self.master.selected_directory,
+				background="#E4EBF1"
 			)
 			self.selected_directory_label.grid(column=1, row=0)
 
