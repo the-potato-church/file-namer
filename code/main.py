@@ -4,6 +4,7 @@ import tkinter as tk
 from dir_selection import TargetDirSelection
 from file_selection import TargetFileSelection
 from logging_module import logging_config
+from name_change_preview import NameChangePreview
 from name_pattern_selection import NamePatternSelection
 from version import get_version
 
@@ -78,6 +79,10 @@ class MainFrame(tk.Frame):
 		# (see `self.after_target_file_select`)
 		self.name_pattern_select_frame = self._create_new_NamePatternSelection()
 
+		# Creating Name Change Preview Frame; shown when name modifications are confirmed
+		# (see `self.after_name_pattern_selected`)
+		self.name_change_preview = NameChangePreview(master=self)
+
 	def _create_new_NamePatternSelection(self):
 		"""
 		An instance of `NamePatternSelection` is called in more than one place.
@@ -148,6 +153,7 @@ class MainFrame(tk.Frame):
 
 	def after_name_pattern_selected(self, name_modifications: list[dict]) -> None:
 		self.logger.debug("Name pattern modifications have been selected.")
+		self.name_change_preview.grid(column=0, row=2, pady="0.3cm")
 
 
 if __name__ == "__main__":
@@ -157,7 +163,7 @@ if __name__ == "__main__":
 	window = tk.Tk()
 
 	# Set window size
-	window.geometry("600x500")
+	window.geometry("600x550")
 	window.resizable(height=False, width=False)
 
 	# Set the window title and icon
